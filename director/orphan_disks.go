@@ -105,7 +105,7 @@ func (d DirectorImpl) OrphanDisks() ([]OrphanDisk, error) {
 func (c Client) OrphanDisks() ([]OrphanDiskResp, error) {
 	var disks []OrphanDiskResp
 
-	err := c.clientRequest.Get("/disks", &disks)
+	err := c.clientRequest.Get("/orphaned_disks", &disks)
 	if err != nil {
 		return disks, bosherr.WrapErrorf(err, "Finding orphaned disks")
 	}

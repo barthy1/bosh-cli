@@ -29,7 +29,7 @@ var _ = Describe("Director", func() {
 		It("returns orphaned disks", func() {
 			server.AppendHandlers(
 				ghttp.CombineHandlers(
-					ghttp.VerifyRequest("GET", "/disks"),
+					ghttp.VerifyRequest("GET", "/orphaned_disks"),
 					ghttp.VerifyBasicAuth("username", "password"),
 					ghttp.RespondWith(http.StatusOK, `[
 	{
@@ -82,7 +82,7 @@ var _ = Describe("Director", func() {
 		})
 
 		It("returns error if response is non-200", func() {
-			AppendBadRequest(ghttp.VerifyRequest("GET", "/disks"), server)
+			AppendBadRequest(ghttp.VerifyRequest("GET", "/orphaned_disks"), server)
 
 			_, err := director.OrphanDisks()
 			Expect(err).To(HaveOccurred())
@@ -93,7 +93,7 @@ var _ = Describe("Director", func() {
 		It("returns error if response cannot be unmarshalled", func() {
 			server.AppendHandlers(
 				ghttp.CombineHandlers(
-					ghttp.VerifyRequest("GET", "/disks"),
+					ghttp.VerifyRequest("GET", "/orphaned_disks"),
 					ghttp.RespondWith(http.StatusOK, ``),
 				),
 			)
@@ -147,7 +147,7 @@ var _ = Describe("OrphanDisk", func() {
 					ghttp.RespondWith(http.StatusBadRequest, ``),
 				),
 				ghttp.CombineHandlers(
-					ghttp.VerifyRequest("GET", "/disks"),
+					ghttp.VerifyRequest("GET", "/orphaned_disks"),
 					ghttp.VerifyBasicAuth("username", "password"),
 					ghttp.RespondWith(http.StatusOK, `[]`),
 				),
@@ -163,7 +163,7 @@ var _ = Describe("OrphanDisk", func() {
 					ghttp.RespondWith(http.StatusBadRequest, ``),
 				),
 				ghttp.CombineHandlers(
-					ghttp.VerifyRequest("GET", "/disks"),
+					ghttp.VerifyRequest("GET", "/orphaned_disks"),
 					ghttp.VerifyBasicAuth("username", "password"),
 					ghttp.RespondWith(http.StatusOK, ``),
 				),
@@ -180,7 +180,7 @@ var _ = Describe("OrphanDisk", func() {
 
 			server.AppendHandlers(
 				ghttp.CombineHandlers(
-					ghttp.VerifyRequest("GET", "/disks"),
+					ghttp.VerifyRequest("GET", "/orphaned_disks"),
 					ghttp.VerifyBasicAuth("username", "password"),
 					ghttp.RespondWith(http.StatusOK, `[
 	{ "disk_cid": "cid", "orphaned_at": "2016-01-09 06:23:25 +0000" }
@@ -201,7 +201,7 @@ var _ = Describe("OrphanDisk", func() {
 					ghttp.RespondWith(http.StatusOK, ``),
 				),
 				ghttp.CombineHandlers(
-					ghttp.VerifyRequest("GET", "/disks"),
+					ghttp.VerifyRequest("GET", "/orphaned_disks"),
 					ghttp.VerifyBasicAuth("username", "password"),
 					ghttp.RespondWith(http.StatusOK, `[
 	{ "disk_cid": "cid", "orphaned_at": "2016-01-09 06:23:25 +0000" }
